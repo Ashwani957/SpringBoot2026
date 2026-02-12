@@ -32,6 +32,14 @@ public class HomeController {
         return "login";
     }
 
+    @GetMapping("/invalid")
+    public String invalid(){
+        return "invalid";
+    }
 
+    @GetMapping("/userlogout")
+    public String logout(){
+        return "logout";
+    }
 
 }
