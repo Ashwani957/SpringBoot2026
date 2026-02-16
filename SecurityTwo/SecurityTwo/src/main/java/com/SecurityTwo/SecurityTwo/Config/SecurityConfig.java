@@ -30,7 +30,7 @@ public class SecurityConfig {
 //}
 
 
-//SecurtyFilterchain
+//SecurtyFilterchain (custom)
 // this secuirty fileter is from our another default login page
 //    @Bean
 //    public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception{
@@ -46,30 +46,22 @@ public class SecurityConfig {
 
 
 //this secuirty fileter is for our custom login page
+//    defaultSuccessUrl : are used to render the page after thelogin and failureUrl are used when we provide the invalid password then it redierect to this particular page
     @Bean
     public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception{
-        http.authorizeHttpRequests(auth->auth.requestMatchers(
-                                "/"
+        http.csrf(csrf->csrf.disable()).
+
+                authorizeHttpRequests(auth->auth.requestMatchers(
+                                "/","/sign","/login"
                         ).permitAll().anyRequest().authenticated()
-                ).formLogin(form->form.loginPage("/sign").defaultSuccessUrl("/home",true).permitAll()
-                ).logout(logout->logout.permitAll());
+                ).formLogin(form->form.loginPage("/sign").loginProcessingUrl("/login").defaultSuccessUrl("/",true)
+//                        .failureUrl("/invalid")
+                      .permitAll()
+
+                ).logout(logout->logout.logoutUrl("/logout").logoutSuccessUrl("/userlogout").permitAll());
         return http.build();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-//
-//
-//
 //    Provider
 //    doa authenticationProvider will take two things first the object of the UserDetails (implemented class ) and the second one is passwordEncoder
 //  in the video using the old version and i am using the new versionso that why it is not necessary
@@ -101,3 +93,4 @@ public class SecurityConfig {
 
 
 }
+
