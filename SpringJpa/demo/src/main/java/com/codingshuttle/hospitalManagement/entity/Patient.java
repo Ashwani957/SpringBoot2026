@@ -47,7 +47,8 @@ public class Patient {
 
 
 //    insurance is the join coloum that join two table insurance and patient
-    @OneToOne
+//    @OneToOne(cascade={CascadeType.MERGE,CascadeType.PERSIST}) // CascadeType.All means if we perform any operation in the parent then it will also affect the children like delete form parent will also affect the children
+    @OneToOne(cascade = {CascadeType.ALL},orphanRemoval = true) // orphal removal true means jo child h ushe remove kr do
     @JoinColumn(name="patient_insurance_id") // if we want to provide the custom name of the insurance Id  then we should use the joinColumn
     private Insurance insurance; // owning side
 
@@ -55,7 +56,10 @@ public class Patient {
 //    know link patient table the appointment table
 
 //    this fields is link with the appointmets table but internally if we did not use the mappedBy then it will create the  own fields
-@OneToMany(mappedBy="patient")
+
+//    Here if we remove the Patient then corressponding appointment will also remove so that why we use the CascaeType.Remove
+@OneToMany(mappedBy="patient",cascade = {CascadeType.REMOVE})  // lazy or eager
+@ToString.Exclude
     private List<Appointment> appointments;
 
 
