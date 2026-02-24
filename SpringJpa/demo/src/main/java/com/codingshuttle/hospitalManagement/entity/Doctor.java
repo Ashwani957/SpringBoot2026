@@ -2,10 +2,7 @@ package com.codingshuttle.hospitalManagement.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,10 +22,12 @@ public class Doctor {
     @Column(length=100)
     private String speclization ;
 
-    @Column(nullable = false,unique = true,length=100)
+//    @Column(nullable = false,unique = true,length=100)
     private String email ;
 
+    @ToString.Exclude
     @ManyToMany(mappedBy="doctors")
+
     private Set<Department> department=new HashSet<>();
 
 }
